@@ -1,5 +1,7 @@
 This is the CaringCookie Project.
 
+To get started:
+
 1. Download Python
 2. Create a folder for this project
 3. Pull the GitHub project into the folder
