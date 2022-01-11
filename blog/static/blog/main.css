@@ -1,0 +1,15 @@
+/* .blog-entry {
+  border-radius: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+} */
+
+input {
+  border: none;
+  border: 1px solid #eee;
+  width: 90%;
+  margin: 0 5%;
+}
+
+input:focus {
+  outline: none;
+}
