@@ -8,27 +8,14 @@
     </div>
   </div>
 </div>
-<div class="container p-5 rounded">
+<div class="container">
   {% for blog in blogs %}
-  <div class="row blog mb-5 card bg-white">
-    <div class="text-center">
-      <a class="mb-1" href="#">
-        <span>{{blog.author.username}}</span>
-      </a>
-      <small class="text-muted"
-        >{{blog.date_published|date:"d/m/Y h:i a"}}</small
-      >
-    </div>
-    <div class="col-lg-10 col-sm-12 card-body">
-      <div class="blog-information">
-        <h1 class="font-weight-bold mb-3">{{blog.title}}</h1>
-        <p>{{blog.content|truncatewords:30}}</p>
-        <a
-          href="{% url 'blogs_detail' blog.pk %}"
-          class="font-weight-bold mb-3 d-inline-block btn btn-dark"
-        >
-          Read More
-        </a>
+  <div class="row">
+    <div class="card border-0 col" style="margin-top: 2rem">
+      <div class="card-body">
+        <a class="blog-title-link" href="#">{{ blog.title }}</a>
+        <p class="card-text">{{ blog.content }}</p>
+        <a class="btn" href="#">Continue reading</a>
       </div>
     </div>
   </div>
