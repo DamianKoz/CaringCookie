@@ -23,7 +23,7 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">CaringCookie</a>
+          <a class="navbar-brand" href="{% url 'blog_list' %}">CaringCookie</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -47,7 +47,15 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#"
-                  >Login</a
+                  >Einloggen</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="{% url 'create_blog' %}"
+                  >Beitrag erstellen</a
                 >
               </li>
             </ul>

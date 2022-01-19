@@ -1,7 +1,26 @@
+@media (min-width: 1200px) {
+  .container {
+    max-width: 50%;
+  }
+}
+
 .blog-title-link {
   text-decoration: none;
+  color: #000;
+  font-size: large;
 }
 
 .btn {
-  background-color: rebeccapurple;
+  border: 1px solid #000;
+  border-radius: 2rem;
+  opacity: 0.5;
+}
+
+.btn > a {
+  text-decoration: none;
+  color: #000;
+}
+
+.btn:hover {
+  opacity: 1;
 }
