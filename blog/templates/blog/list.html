@@ -13,9 +13,11 @@
   <div class="row">
     <div class="card border-0 col" style="margin-top: 2rem">
       <div class="card-body">
-        <a class="blog-title-link" href="#">{{ blog.title }}</a>
-        <p class="card-text">{{ blog.content }}</p>
-        <a class="btn" href="#">Continue reading</a>
+        <a class="blog-title-link" href="{% url 'blogs_detail' blog.pk %}"
+          >{{ blog.title }}</a
+        >
+        <p class="card-text">{{ blog.content|truncatewords:30 }}</p>
+        <a class="btn" href="{% url 'blogs_detail' blog.pk %}">Details</a>
       </div>
     </div>
   </div>
