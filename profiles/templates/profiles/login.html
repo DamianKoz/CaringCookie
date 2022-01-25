@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %} <span></span>
+{% block content %}
+
+<!--Login-->
+<div class="container py-5">
+  <h1>Login</h1>
+  <form method="POST">
+    {% csrf_token %} {{ form }}
+    <button class="btn" type="submit">Login</button>
+  </form>
+  <p class="text-center">
+    Don't have an account? <a href="#">Create an account</a>.
+  </p>
+</div>
+
+{% endblock %}
