@@ -1,13 +1,14 @@
-{% extends "blog/base.html" %} {% block content %}
+{% extends "blog/base.html" %} <span></span>
+{% block content %} {% load crispy_forms_tags %}
 <div class="container py-5">
-    <h1>Neuer Beitrag</h1>
-    <form method="POST">
-      {% csrf_token %} {{ form }}
-<!--       <label for="title">Titel: </label>
+  <h1>Neuer Beitrag</h1>
+  <form method="POST">
+    {% csrf_token %} {{ form|crispy }}
+    <!--       <label for="title">Titel: </label>
       <input id="title" type="text" name="title">
       <label for="content">Beschreibung: </label>
       <input id="content" type="text" name="content"> -->
-      <button class="btn" type="submit">Erstellen</button>
-    </form>
-  </div>
+    <button class="btn" type="submit">Erstellen</button>
+  </form>
+</div>
 {% endblock content %}

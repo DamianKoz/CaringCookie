@@ -54,6 +54,14 @@
                   >Logout</a
                 >
               </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="{% url 'create_blog' %}"
+                  >Beitrag erstellen</a
+                >
+              </li>
               {% else %}
               <li class="nav-item">
                 <a
@@ -64,14 +72,6 @@
                 >
               </li>
               {% endif %}
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  aria-current="page"
-                  href="{% url 'create_blog' %}"
-                  >Beitrag erstellen</a
-                >
-              </li>
             </ul>
           </div>
         </div>
