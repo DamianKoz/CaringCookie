@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render, get_list_or_404, redirect
+from django.shortcuts import redirect
 from . models import Blog
 from django.contrib.auth.models import User
 
@@ -20,12 +21,12 @@ def create_blog(request):
         # create a form instance and populate it with data from the request:
         form = CreateBlogForm(request.POST)
         # check whether it's valid:
-        if form.is_valid():
+        if form.is_valid() and request.user.is_authenticated:
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            newentry = Blog(title, content)
-            return redirect("")
-    
+            newentry = Blog(title=title, content=content, author = request.user)
+            newentry.save()
+            return redirect("blog_list")
     else:
         form = CreateBlogForm()
 
