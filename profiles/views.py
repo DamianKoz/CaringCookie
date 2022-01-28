@@ -3,6 +3,7 @@ from django.shortcuts import  render, redirect
 from django.contrib.auth import login, authenticate #add this
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login(request):
@@ -23,3 +24,7 @@ def login(request):
     form = AuthenticationForm()
 # return render(request=request, template_name="main/login.html", context={"login_form":form})
     return render(request, "profiles/login.html", context={"login_form":form})
+
+@login_required
+def profile(request):
+    return render(request, 'profiles/profile.html')
