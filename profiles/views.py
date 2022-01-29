@@ -1,12 +1,14 @@
-from django.shortcuts import render
 from django.shortcuts import  render, redirect
 from django.contrib.auth import login, authenticate #add this
+from .forms import NewUserForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-def login(request):
+@csrf_exempt
+def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
     if form.is_valid():
@@ -28,3 +30,16 @@ def login(request):
 @login_required
 def profile(request):
     return render(request, 'profiles/profile.html')
+
+@csrf_exempt
+def register_request(request):
+	if request.method == "POST":
+		form = NewUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			messages.info(request, "Registration successful." )
+			return redirect("blog_list")
+		messages.error(request, "Unsuccessful registration. Invalid information.")
+	form = NewUserForm()
+	return render(request, "profiles/register.html", context={"register_form":form})

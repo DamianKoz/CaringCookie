@@ -62,6 +62,14 @@
                   >Beitrag erstellen</a
                 >
               </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="{% url 'users-profile' %}"
+                  >Dein Profil</a
+                >
+              </li>
               {% else %}
               <li class="nav-item">
                 <a
@@ -69,6 +77,14 @@
                   aria-current="page"
                   href="{% url 'login' %}"
                   >Einloggen</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="{% url 'register' %}"
+                  >Registrieren</a
                 >
               </li>
               {% endif %}
