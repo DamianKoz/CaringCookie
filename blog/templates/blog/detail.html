@@ -3,5 +3,8 @@
   <h1 class="blog-card-title mb-3 font-weight-bold">{{blog.title}}</h1>
   <p class="text-muted">by {{ blog.author }}</p>
   <p class="line-height text-justify">{{blog.content}}</p>
+  <button type="button">
+    <a href="{% url 'change_blog' blog.pk %}">Beitrag bearbeiten</a>
+  </button>
 </div>
 {% endblock content %}
