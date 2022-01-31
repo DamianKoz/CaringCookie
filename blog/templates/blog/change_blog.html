@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %} <span></span>
+{% block content %} {% load crispy_forms_tags %}
+<div class="container py-5">
+  <h1>Beitrag {{ entrytochange.title }} bearbeiten</h1>
+    {% if request.user == entrytochange.author %} 
+    <form method="POST">
+    {% csrf_token %} {{ form|crispy }}
+    <button class="btn" type="submit">Änderungen speichern</button>
+  </form>
+  {% else %}
+    <p>Sie besitzen nicht die entsprechende Berechtigung. Es können nur Ihre eigenen Beitrage bearbeitet werden!</p>
+  {% endif %}
+</div>
+{% endblock content %}

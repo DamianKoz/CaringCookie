@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from . models import Blog
 from django.contrib.auth.models import User
 
-from .forms import CreateBlogForm
+from .forms import CreateBlogForm, ChangeBlogForm
 
 # Create your views here.
 
@@ -31,3 +31,25 @@ def create_blog(request):
         form = CreateBlogForm()
 
     return render(request, "blog/create_blog.html", {'form': form})
+
+
+def change_blog(request,pk):
+    
+    entrytochange = get_object_or_404(Blog, pk=pk)
+    initial_data={
+            'title':entrytochange.title,
+            'content':entrytochange.content,
+    }
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ChangeBlogForm(request.POST)
+        # check whether it's valid:
+        
+        if form.is_valid() and request.user.is_authenticated and request.user == entrytochange.author:
+            entrytochange.title = form.cleaned_data['title']
+            entrytochange.content = form.cleaned_data['content']
+            entrytochange.save()
+            return redirect("blogs_detail", pk)
+    else:
+        form = ChangeBlogForm(initial=initial_data)
+    return render(request, "blog/change_blog.html", {'form': form, 'entrytochange': entrytochange})
