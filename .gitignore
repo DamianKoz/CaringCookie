@@ -8,3 +8,5 @@ db.sqlite3-journal
 .venv
 
 */__pycache__/*
+
+*.pyc
