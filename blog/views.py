@@ -54,3 +54,21 @@ def change_blog(request,pk):
     else:
         form = ChangeBlogForm(initial=initial_data)
     return render(request, "blog/change_blog.html", {'form': form, 'entrytochange': entrytochange})
+
+
+def delete_blog(request,pk):
+    
+    entrytodelete = get_object_or_404(Blog, pk=pk)
+
+    if request.method == 'POST':
+                
+        if  request.user.is_authenticated and request.user == entrytodelete.author:
+            entrytodelete.delete()
+            return redirect("successfully_deleted_blog")
+            
+    return render(request, "blog/delete_blog.html", {'entrytodelete': entrytodelete})
+
+
+def successfully_deleted_blog(request):
+     
+    return render(request, "blog/successfully_deleted_blog.html")    

@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %} <span></span>
+{% block content %} {% load crispy_forms_tags %}
+<div class="container py-5">
+  <h1>Beitrag "{{ entrytodelete.title }}" löschen</h1>
+  {% if request.user == entrytodelete.author and request.user.is_authenticated %}
+    <p style="color:red">Einmal gelöscht können Sie Ihren Beitrag nicht wiederherstellen. 
+    <br>Möchten Sie den Beitrag endgültig löschen?</p>
+    <form method="POST">
+      {% csrf_token %}
+      <button class="btn" type="submit">Beitrag endgültig löschen</button>
+    </form>
+  {% else %}
+    <p>Sie besitzen nicht die Rechte, um diesen Beitrag zu löschen.
+    <br>Es ist Ihnen nur erlaubt, Ihre eigenen Beiträge zu löschen!</p>
+  {% endif %}
+</div>
+{% endblock content %}

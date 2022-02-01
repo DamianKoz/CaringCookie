@@ -1,0 +1,9 @@
+{% extends "blog/base.html" %} <span></span>
+{% block content %} {% load crispy_forms_tags %}
+<div class="container py-5">
+  <h1>Ihr Beitrag wurde erfolgreich gelöscht</h1>
+    <p>Ihr Beitrag wurde erfolgreich gelöscht. 
+    <br>Möchten Sie zur Startseite zurückkehren?</p>
+    <a href="{% url 'blog_list' %}" class="btn">Zurück zur Startseite</a>
+</div>
+{% endblock content %}
