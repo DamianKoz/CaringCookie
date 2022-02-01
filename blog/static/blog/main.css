@@ -24,3 +24,12 @@
 .btn:hover {
   opacity: 1;
 }
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: none;
+}
