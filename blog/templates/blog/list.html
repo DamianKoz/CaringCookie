@@ -8,17 +8,18 @@
     </div>
   </div>
 </div>
-<div class="container">
+<div class="container px-5">
   {% for blog in blogs %}
-  <div class="row">
-    <div class="card border-0 col" style="margin-top: 2rem">
-      <div class="card-body">
-        <a class="blog-title-link" href="{% url 'blogs_detail' blog.pk %}"
-          >{{ blog.title }}</a
-        >
-        <p class="card-text">{{ blog.content|truncatewords:30 }}</p>
-        <a class="btn" href="{% url 'blogs_detail' blog.pk %}">Details</a>
-      </div>
+  <div class="card shadow rounded" style="margin-top: 2rem">
+    <div class="card-header">{{ blog.type }}</div>
+    <div class="card-body">
+      <a
+        class="blog-title-link card-title"
+        href="{% url 'blogs_detail' blog.pk %}"
+        >{{ blog.title }}</a
+      >
+      <p class="card-text">{{ blog.content|truncatewords:30 }}</p>
+      <a class="btn" href="{% url 'blogs_detail' blog.pk %}">Details</a>
     </div>
   </div>
   {% endfor %}
