@@ -5,6 +5,7 @@
   <p class="line-height text-justify">{{blog.content}}</p>
   {% if request.user == blog.author %}
   <a href="{% url 'change_blog' blog.pk %}" class="btn">Beitrag bearbeiten</a>
+  <a href="{% url 'delete_blog' blog.pk %}" class="btn">Beitrag löschen</a>
   {% endif %}
 </div>
 {% endblock content %}
