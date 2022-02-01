@@ -27,7 +27,7 @@ def create_blog(request):
             type = form.cleaned_data['type']
             newentry = Blog(title=title, content=content, author = request.user, type = type)
             newentry.save()
-            return redirect("blog_list")
+            return redirect("blogs_detail", newentry.pk)
     else:
         form = CreateBlogForm()
 
