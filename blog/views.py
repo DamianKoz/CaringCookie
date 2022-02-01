@@ -24,7 +24,8 @@ def create_blog(request):
         if form.is_valid() and request.user.is_authenticated:
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            newentry = Blog(title=title, content=content, author = request.user)
+            type = form.cleaned_data['type']
+            newentry = Blog(title=title, content=content, author = request.user, type = type)
             newentry.save()
             return redirect("blog_list")
     else:
