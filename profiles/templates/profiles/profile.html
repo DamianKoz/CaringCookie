@@ -1,3 +1,4 @@
+
 {% extends "blog/base.html" %}
 {% block title %}Profile Page{% endblock title %}
 {% block content %}
@@ -17,7 +18,7 @@
         <br></br>
         <label class="university">Universität:</label> {{user.profile.university}}
         <br></br>
-        <p class="text-center"><a href="/profiles/changeProfile">Profil bearbeiten</a></p>
+        <a href="{% url 'change-profile' user.profile.pk %}" class="btn">Beitrag bearbeiten</a>
     </div>
     
 {% endblock content %}

@@ -1,6 +1,6 @@
-from django.shortcuts import  render, redirect
+from django.shortcuts import  render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate #add this
-from .forms import NewUserForm, NewProfileForm
+from .forms import NewUserForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,8 @@ from .forms import UpdateUserForm, UpdateProfileForm
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.models import User
+from profiles.models import Profile
 
 # Create your views here.
 @csrf_exempt
@@ -41,18 +43,27 @@ def createProfile(request):
 
 
 @login_required
-def changeProfile(request):
+def changeProfile(request, pk):
+    entrytochangeProfil = get_object_or_404(Profile, pk=pk)
+    initial_data={
+            'bio':entrytochangeProfil.bio,
+            'city':entrytochangeProfil.city,
+            'university':entrytochangeProfil.university
+    }
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
-
         if user_form.is_valid() and profile_form.is_valid():
+            entrytochangeProfil.bio = profile_form.cleaned_data['bio']
+            entrytochangeProfil.city = profile_form.cleaned_data['city']
+            entrytochangeProfil.university = profile_form.cleaned_data['university']
+            entrytochangeProfil.save()
             user_form.save()
-            profile_form.save()
+            #profile_form.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
     user_form = UpdateUserForm()
-    profile_form = UpdateProfileForm()
+    profile_form = UpdateProfileForm(initial=initial_data)
     return render(request, 'profiles/changeProfile.html', context={'user_form': user_form, 'profile_form': profile_form})
 
 
