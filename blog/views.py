@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, get_list_or_404, redirec
 from django.shortcuts import redirect
 from . models import Blog
 from django.contrib.auth.models import User
+from django.http import Http404
 
 from .forms import CreateBlogForm, ChangeBlogForm
 
@@ -71,4 +72,10 @@ def delete_blog(request,pk):
 
 def successfully_deleted_blog(request):
      
-    return render(request, "blog/successfully_deleted_blog.html")    
+    return render(request, "blog/successfully_deleted_blog.html")  
+
+def my_blogs(request):
+    if request.user.is_authenticated:
+        my_blogs = Blog.objects.filter(author=request.user)
+        return render(request, "blog/list.html", {"blogs": my_blogs})
+    raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
