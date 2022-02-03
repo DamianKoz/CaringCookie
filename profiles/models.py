@@ -3,19 +3,22 @@ from django.contrib.auth.models import User
 from PIL import Image
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.urls import reverse
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
-    bio = models.TextField()
-    city = models.TextField(default='eine Stadt')
-    university = models.TextField(default='eine Hochschule')
+    bio = models.TextField(blank=True)
+    city = models.TextField(blank=True)
+    university = models.TextField(blank=True)
 
 
     def __str__(self):
         return f'{self.user.username}\'s Profile'
+
+    def get_absolute_url(self):
+        return reverse("blog_detail", kwargs={'pk': self.pk})
 
     # resizing images
     def save(self, *args, **kwargs):

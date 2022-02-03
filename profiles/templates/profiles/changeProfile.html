@@ -1,4 +1,5 @@
-{% extends "blog/base.html" %}
+{% extends "blog/base.html" %} <span></span>
+{% load crispy_forms_tags %}
 {% block title %}Change Profile Page{% endblock title %}
 {% block content %}
 {% if user_form.errors %}
@@ -15,7 +16,7 @@
 {% endif %}
 <div class="form-content">
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+        {% csrf_token %} {{ form|crispy }}
         <div class="form-row">
             <div class="col-md-5">
                 <div class="form-group">

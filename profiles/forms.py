@@ -27,38 +27,18 @@ class NewUserForm(UserCreationForm):
 
 
 class UpdateUserForm(forms.ModelForm):
-    username = forms.CharField(max_length=100,
-                               required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(required=True,
-                             widget=forms.TextInput(attrs={'class': 'form-control'}))
-
+    username = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField(max_length=100, required=True)
     class Meta:
         model = User
         fields = ['username', 'email']
 
-class NewProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(required=False)
-    bio = forms.CharField(required=False)
-    city = forms.CharField(required=False)
-    university = forms.CharField(required=False)
-
-    class Meta:
-        model = Profile
-        fields = ("avatar", "bio", "city", "university")
-
-    def save(self, commit=True):
-        profile = super(NewProfileForm, self).save(commit=False)
-        if commit:
-            profile.save()
-        return profile
 
 class UpdateProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-    city = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 1}))
-    university = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 1}))
-
+    avatar = forms.ImageField(label='Avatar', widget=forms.FileInput(attrs={'class': 'form-control-file'}), required=False)
+    bio = forms.CharField(label='Bio', widget=forms.Textarea, required=False)
+    city = forms.CharField(label='Stadt', max_length=30, required=False)
+    university = forms.CharField(label='Uni', max_length=30, required=False)
     class Meta:
         model = Profile
         fields = ['avatar', 'bio', 'city', 'university']
