@@ -1,6 +1,6 @@
 from django.shortcuts import  render, redirect
 from django.contrib.auth import login, authenticate #add this
-from .forms import NewUserForm
+from .forms import NewUserForm, NewProfileForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.contrib.auth.decorators import login_required
@@ -35,6 +35,10 @@ def login_request(request):
 def profile(request):
     return render(request, 'profiles/profile.html')
 
+@login_required
+def createProfile(request):
+    return render(render, 'profiles/createProfile.html')
+
 
 @login_required
 def changeProfile(request):
@@ -51,7 +55,6 @@ def changeProfile(request):
     profile_form = UpdateProfileForm()
     return render(request, 'profiles/changeProfile.html', context={'user_form': user_form, 'profile_form': profile_form})
 
-    
 
 @csrf_exempt
 def register_request(request):
