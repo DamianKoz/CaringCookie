@@ -50,6 +50,10 @@ def changeProfile(request, pk):
             'city':entrytochangeProfil.city,
             'university':entrytochangeProfil.university
     }
+    initial_data_user={
+            'username':request.user.username,
+            'email':request.user.email,
+    }
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -62,7 +66,7 @@ def changeProfile(request, pk):
             #profile_form.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
-    user_form = UpdateUserForm()
+    user_form = UpdateUserForm(initial=initial_data_user)
     profile_form = UpdateProfileForm(initial=initial_data)
     return render(request, 'profiles/changeProfile.html', context={'user_form': user_form, 'profile_form': profile_form})
 
