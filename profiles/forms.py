@@ -29,8 +29,8 @@ class NewUserForm(UserCreationForm):
 
 
 class UpdateUserForm(forms.ModelForm):
-    username = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(max_length=100, required=True)
+    username = forms.CharField(label="Benutzername",max_length=100, required=True)
+    email = forms.EmailField(label="Email",max_length=100, required=True)
     class Meta:
         model = User
         fields = ['username', 'email']

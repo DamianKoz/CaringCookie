@@ -65,8 +65,8 @@ def changeProfile(request, pk):
             'university':entrytochangeProfil.university
     }
     initial_data_user={
-            'username':request.user.username,
-            'email':request.user.email,
+            'username': entrytochangeProfil.user.username,
+            'email':entrytochangeProfil.user.email,
     }
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)

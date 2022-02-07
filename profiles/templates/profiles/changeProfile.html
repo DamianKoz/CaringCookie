@@ -1,22 +1,31 @@
 {% extends "blog/base.html" %} <span></span>
-{% load crispy_forms_tags %}
-{% block title %}Change Profile Page{% endblock title %}
-{% block content %}
-{% if user_form.errors %}
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <div id="form_errors">
-            {% for key, value in user_form.errors.items %}
-                <strong>{{ value }}</strong>
-            {% endfor %}
-        </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+{% load crispy_forms_tags %} {% block content %} {% if user_form.errors %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <div id="form_errors">
+    {% for key, value in user_form.errors.items %}
+    <strong>{{ value }}</strong>
+    {% endfor %}
+  </div>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 {% endif %}
-<div class="form-content">
+
+<div class="container">
+  <form method="POST">
+    {% csrf_token %} {{ user_form|crispy }}
+    <a class="btn" href="{% url 'password-change' %}">Change Password</a>
+    <hr />
+    {{ profile_form|crispy }}
+    <button type="submit" class="btn">Save Changes</button>
+    <button type="reset" class="btn">Reset</button>
+  </form>
+</div>
+
+<!-- <div class="container">
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %} {{ form|crispy }}
+        {% csrf_token %} {{ user_form|crispy }}
         <div class="form-row">
             <div class="col-md-5">
                 <div class="form-group">
@@ -41,8 +50,8 @@
             </div>
         </div>
         <br><br>
-        <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
-        <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+        <button type="submit" class="btn">Save Changes</button>
+        <button type="reset" class="btn">Reset</button>
     </form>
-</div>   
-{% endblock content %} 
+</div>    -->
+{% endblock content %}
