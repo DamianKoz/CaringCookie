@@ -39,7 +39,21 @@ def profile(request):
 
 @login_required
 def createProfile(request):
-    return render(render, 'profiles/createProfile.html')
+    initial_data_user={
+        'username':request.user.username,
+        'email':request.user.email,
+    }
+    #if request.method == 'POST':
+    user_form = UpdateUserForm(request.POST, instance=request.user)
+    profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
+    if user_form.is_valid() and profile_form.is_valid():
+        user_form.save()
+        profile_form.save()
+        messages.success(request, 'Your profile is created successfully')
+        return redirect('users-profile')
+    user_form = UpdateUserForm(initial=initial_data_user)
+    #profile_form = UpdateProfileForm()
+    return render(request, 'profiles/createProfile.html', context={'user_form': user_form, 'profile_form': profile_form})
 
 
 @login_required
@@ -79,7 +93,7 @@ def register_request(request):
 			user = form.save()
 			login(request, user)
 			messages.info(request, "Registration successful." )
-			return redirect("blog_list")
+			return redirect(to='create-profile')
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
 	return render(request, "profiles/register.html", context={"register_form":form})
