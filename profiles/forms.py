@@ -9,8 +9,6 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 
-# Create your forms here.
-
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     vorname = forms.CharField(required=True)
