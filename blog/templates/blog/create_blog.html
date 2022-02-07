@@ -4,10 +4,6 @@
   <h1>Neuer Beitrag</h1>
   <form method="POST">
     {% csrf_token %} {{ form|crispy }}
-    <!--       <label for="title">Titel: </label>
-      <input id="title" type="text" name="title">
-      <label for="content">Beschreibung: </label>
-      <input id="content" type="text" name="content"> -->
     <button class="btn" type="submit">Erstellen</button>
   </form>
 </div>

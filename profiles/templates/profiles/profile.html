@@ -1,24 +1,27 @@
-
-{% extends "blog/base.html" %}
-{% block title %}Profile Page{% endblock title %}
+{% extends "blog/base.html" %} {% block title %}Profile Page{% endblock title %}
 {% block content %}
-    <div class="row my-3 p-3">
-        <h1>{{user.username}}'s Profil </h1>
-        <p class="text-center"></p>
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+  <div class="card p-4">
+    <img
+      class="rounded-circle account-img"
+      src="{{ user.profile.avatar.url }} "
+      style="cursor: pointer"
+      width="300"
+      height="300"
+    />
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <h1 class="">{{user.username}}'s Profil</h1>
+      <h2>Bio:</h2>
+      <p class="">{{ user.profile.bio }}</p>
+      <h2>Stadt:</h2>
+      <p>{{user.profile.city}}</p>
+      <h2>Universität:</h2>
+      <p>{{user.profile.university}}</p>
+      <a href="{% url 'change-profile' user.profile.pk %}" class="btn"
+        >Profil bearbeiten</a
+      >
     </div>
-    {% csrf_token %}
-    <div>
-        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"
-        width="300"
-        height="300"/>
-        <br></br>
-        <label class="Bio">Bio:</label> {{user.profile.bio}}
-        <br></br>
-        <label class="City">Stadt:</label> {{user.profile.city}}
-        <br></br>
-        <label class="university">Universität:</label> {{user.profile.university}}
-        <br></br>
-        <a href="{% url 'change-profile' user.profile.pk %}" class="btn">Beitrag bearbeiten</a>
-    </div>
-    
+  </div>
+</div>
+
 {% endblock content %}
