@@ -22,6 +22,10 @@ class CreateThread(View):
         thread = ThreadModel.objects.filter(user=request.user, receiver=receiver)[0]
         return redirect('thread', pk=thread.pk)
       
+      elif ThreadModel.objects.filter(receiver=request.user, user=receiver).exists():
+        thread = ThreadModel.objects.filter(receiver=request.user, user=receiver)[0]
+        return redirect('thread', pk=thread.pk)
+
       if form.is_valid():
         sender_thread = ThreadModel(
           user=request.user,
@@ -45,7 +49,14 @@ class CreateMessage(View):
   def post(self, request, pk, *args, **kwargs):
     thread = ThreadModel.objects.get(pk=pk)
     if thread.receiver == request.user:
-      receiver = thread.user
+      #receiver = thread.user
+      receiver = thread.receiver
+      message = MessageModel(
+        thread=thread,
+        sender_user=thread.receiver,
+        receiver_user=thread.user,
+        body=request.POST.get('message'),
+      )
     else:
       receiver = thread.receiver
       message = MessageModel(
@@ -54,8 +65,8 @@ class CreateMessage(View):
         receiver_user=receiver,
         body=request.POST.get('message'),
       )
-      message.save()
-      return redirect('thread', pk=pk)
+    message.save()
+    return redirect('thread', pk=pk)
 
 class ThreadView(View):
   def get(self, request, pk, *args, **kwargs):

@@ -7,8 +7,14 @@
         <button type="submit">Start a Conversation</button>
       </form>
   {% for thread in threads.all %}
+  {% if request.user == thread.user %}
       <a class="btn" href="{% url 'thread' thread.pk %}">
-        {{ thread.receiver }}
+        {{ thread.receiver }} 
       </a>
+  {% else %}
+      <a class="btn" href="{% url 'thread' thread.pk %}">
+        {{thread.user}}
+      </a>
+  {% endif %}
   {% endfor %}
 {% endblock content %}
