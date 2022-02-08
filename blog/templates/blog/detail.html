@@ -6,6 +6,8 @@
   {% if request.user == blog.author %}
   <a href="{% url 'change_blog' blog.pk %}" class="btn">Beitrag bearbeiten</a>
   <a href="{% url 'delete_blog' blog.pk %}" class="btn">Beitrag löschen</a>
+  {% else %}
+  <a href="{% url 'create-thread' %}" class="btn">Anfragen</a>
   {% endif %}
 </div>
 {% endblock content %}
