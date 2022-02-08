@@ -4,6 +4,13 @@
       <a href="{% url 'inbox' %}">Back to Your Inbox</a>
       <h5>Start a Conversation!</h5>
 
+      {% if messages %}
+      {% for message in messages %}
+      
+      {{ message }}
+       
+      {% endfor %}
+      {% endif %}
       <form method="POST">
         {% csrf_token %}
         <p>Enter the username for the person you would like to talk to.</p>

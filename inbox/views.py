@@ -4,6 +4,7 @@ from django.views import View
 from inbox.forms import MessageForm, ThreadForm
 from django.contrib.auth.models import User
 from inbox.models import MessageModel, ThreadModel
+from django.contrib import messages
 
 
 class CreateThread(View):
@@ -31,6 +32,27 @@ class CreateThread(View):
         thread_pk = sender_thread.pk
         return redirect('thread', pk=thread_pk)
     except:
+      return redirect('create-thread')
+
+  def post(self, request, *args, **kwargs):
+    form = ThreadForm(request.POST)
+    username = request.POST.get('username')
+    try:
+      receiver = User.objects.get(username=username)
+      if ThreadModel.objects.filter(user=request.user, receiver=receiver).exists():
+        thread = ThreadModel.objects.filter(user=request.user, receiver=receiver)[0]
+        return redirect('thread', pk=thread.pk)
+      if form.is_valid():
+        sender_thread = ThreadModel(
+          user=request.user,
+          receiver=receiver
+        )
+      sender_thread.save()
+      thread_pk = sender_thread.pk
+
+      return redirect('thread', pk=thread_pk)
+    except:
+      messages.error(request, 'Nutzer nicht gefunden.')
       return redirect('create-thread')
 
 class ListThreads(View):
@@ -68,3 +90,5 @@ class ThreadView(View):
       'message_list': message_list
     }
     return render(request, 'inbox/thread.html', context)
+
+
