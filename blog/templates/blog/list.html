@@ -9,6 +9,7 @@
   </div>
 </div>
 <div class="container px-5">
+  <a class="btn" id= "createblogbutton" href="{% url 'create_blog' %}">Neuen Beitrag erstellen</a>
   {% for blog in blogs %}
   <div class="card shadow rounded" style="margin-top: 2rem">
     <div class="card-header">{{ blog.type }}</div>
