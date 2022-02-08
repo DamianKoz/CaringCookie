@@ -3,7 +3,7 @@
 <div class="container py-5">
   <h1>Beitrag "{{ entrytodelete.title }}" löschen</h1>
   {% if request.user == entrytodelete.author and request.user.is_authenticated %}
-    <p style="color:red">Einmal gelöscht können Sie Ihren Beitrag nicht wiederherstellen. 
+    <p class="warningtext">Einmal gelöscht können Sie Ihren Beitrag nicht wiederherstellen. 
     <br>Möchten Sie den Beitrag endgültig löschen?</p>
     <form method="POST">
       {% csrf_token %}

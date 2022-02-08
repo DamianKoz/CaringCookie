@@ -4,6 +4,14 @@
   }
 }
 
+.warningtext {
+  color: red;
+}
+
+#createblogbutton {
+ margin-top: 20px;
+}
+
 .blog-title-link {
   text-decoration: none;
   color: #000;

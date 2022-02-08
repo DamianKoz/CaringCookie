@@ -15,11 +15,16 @@ class Blog(models.Model):
         ('Suche', 'Suche'),
         ('Biete', 'Biete')
     )
+    PRODUCTTYPES = (
+        ('Produkt', 'Produkt'),
+        ('Dienstleistung', 'Dienstleistung')
+    )
     title = models.CharField(max_length=250)
     content = models.TextField()
     date_published = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=CASCADE)
     type = models.CharField(max_length=6, choices=TYPES, default="Suche")
+    producttype = models.CharField(max_length=15, choices= PRODUCTTYPES, default="Produkt")
 
     def __str__(self):
         return self.title
