@@ -8,11 +8,11 @@
     {% endif %}
     {% for message in message_list %}
         {% if message.sender_user == request.user %}
-        <p>{{ message.body }}</p>
-    {% elif message.receiver_user == request.user%}
-      <p>{{ message.body }}</p>
-    {% endif %}
-  {% endfor %}
+          <p> {{message.sender_user}}: {{ message.body }}</p>
+        {% elif message.receiver_user == request.user %} 
+          <p>{{message.sender_user}}: {{ message.body }}</p>
+        {% endif %}
+    {% endfor %}
       <form method="POST" action="{% url 'create-message' thread.pk %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form | crispy }}
