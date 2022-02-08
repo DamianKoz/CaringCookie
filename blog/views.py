@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404, render, get_list_or_404, redirect
 from django.shortcuts import redirect
-from . models import Blog
+from . models import Blog, Images
 from django.contrib.auth.models import User
 from django.http import Http404
 
-from .forms import CreateBlogForm, ChangeBlogForm
+from .forms import CreateBlogForm, ChangeBlogForm, CreateBlogFormExtended
 
 # Create your views here.
 
@@ -15,12 +15,14 @@ def list_blogs(request):
 
 def detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
-    return render(request, "blog/detail.html", {"blog": blog})
+    images = Images.objects.filter(blog=blog)
+    return render(request, "blog/detail.html", {"blog": blog, "images": images})
 
 def create_blog(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = CreateBlogForm(request.POST)
+        form = CreateBlogFormExtended(request.POST or None, request.FILES or None)
+        files = request.FILES.getlist('images')
         # check whether it's valid:
         if form.is_valid() and request.user.is_authenticated:
             title = form.cleaned_data['title']
@@ -29,9 +31,11 @@ def create_blog(request):
             producttype = form.cleaned_data['producttype']
             newentry = Blog(title=title, content=content, author = request.user, type = type, producttype = producttype)
             newentry.save()
+            for f in files:
+                Images.objects.create(blog=newentry,image=f)
             return redirect("blogs_detail", newentry.pk)
     else:
-        form = CreateBlogForm()
+        form = CreateBlogFormExtended()
 
     return render(request, "blog/create_blog.html", {'form': form})
 

@@ -3,6 +3,11 @@
   <h1 class="blog-card-title mb-3 font-weight-bold">{{blog.title}}</h1>
   <p class="text-muted">by {{ blog.author }}</p>
   <p class="line-height text-justify">{{blog.content}}</p>
+  {% for image in images %} <span></span>
+  <span></span>
+  <img src="{{ image.image.url }}" alt="" />
+  <p></p>
+  {% endfor %} <span></span>
   {% if request.user == blog.author %}
   <a href="{% url 'change_blog' blog.pk %}" class="btn">Beitrag bearbeiten</a>
   <a href="{% url 'delete_blog' blog.pk %}" class="btn">Beitrag löschen</a>

@@ -24,7 +24,7 @@ class CreateBlogForm(forms.Form):
         fields = ['title', 'content', 'type']
 
 class CreateBlogFormExtended(CreateBlogForm):
-    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    images = forms.FileField(required=False,widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
     class Meta(CreateBlogForm.Meta):
         fields = CreateBlogForm.Meta.fields + ['images',]

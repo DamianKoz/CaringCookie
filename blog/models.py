@@ -33,6 +33,6 @@ class Blog(models.Model):
         return reverse("blog_detail", kwargs={'pk': self.pk})
 
 class Images(models.Model):
-    post = models.ForeignKey(Blog, default=None, on_delete=CASCADE)
-    image = models.ImageField(upload_to='media/blogpictures',
+    blog = models.ForeignKey(Blog, default=None, on_delete=CASCADE)
+    image = models.ImageField(upload_to='blogpictures',
                               null=True,blank=True)
