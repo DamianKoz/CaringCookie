@@ -1,6 +1,7 @@
+from unicodedata import category
 from django.shortcuts import get_object_or_404, render, get_list_or_404, redirect
 from django.shortcuts import redirect
-from . models import Blog
+from . models import Blog, Category
 from django.contrib.auth.models import User
 from django.http import Http404
 
@@ -11,7 +12,7 @@ from .forms import CreateBlogForm, ChangeBlogForm
 
 def list_blogs(request):
     blogs = Blog.objects.all()
-    return render(request, "blog/list.html", {"blogs": blogs})
+    return render(request, "blog/list.html", {"blogs": blogs, "categorys": Category.objects.all()})
 
 def detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
@@ -27,7 +28,8 @@ def create_blog(request):
             content = form.cleaned_data['content']
             type = form.cleaned_data['type']
             producttype = form.cleaned_data['producttype']
-            newentry = Blog(title=title, content=content, author = request.user, type = type, producttype = producttype)
+            category = form.cleaned_data['category']
+            newentry = Blog(title=title, content=content, author = request.user, type = type, producttype = producttype, category = category)
             newentry.save()
             return redirect("blogs_detail", newentry.pk)
     else:
@@ -78,5 +80,11 @@ def successfully_deleted_blog(request):
 def my_blogs(request):
     if request.user.is_authenticated:
         my_blogs = Blog.objects.filter(author=request.user)
-        return render(request, "blog/list.html", {"blogs": my_blogs})
+        return render(request, "blog/list.html", {"blogs": my_blogs, "categorys": Category.objects.all()})
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
+
+def category(request, name):
+    if request.user.is_authenticated:
+        requestedcategory= get_object_or_404(Category, name=name)
+        blogsofcategory = Blog.objects.filter(category=requestedcategory)
+        return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  

@@ -12,6 +12,15 @@
  margin-top: 20px;
 }
 
+#categorybutton {
+  margin-top: 20px;
+ } 
+
+#chosencategorybutton {
+  margin-top: 20px;
+  opacity: 1;
+}
+
 .blog-title-link {
   text-decoration: none;
   color: #000;
