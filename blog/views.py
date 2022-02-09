@@ -44,6 +44,9 @@ def change_blog(request,pk):
     initial_data={
             'title':entrytochange.title,
             'content':entrytochange.content,
+            'type':entrytochange.type,
+            'producttype':entrytochange.producttype,
+            'category':entrytochange.category
     }
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -53,6 +56,9 @@ def change_blog(request,pk):
         if form.is_valid() and request.user.is_authenticated and request.user == entrytochange.author:
             entrytochange.title = form.cleaned_data['title']
             entrytochange.content = form.cleaned_data['content']
+            entrytochange.type = form.cleaned_data['type']
+            entrytochange.producttype = form.cleaned_data['producttype']
+            entrytochange.category = form.cleaned_data['category']
             entrytochange.save()
             return redirect("blogs_detail", pk)
     else:
