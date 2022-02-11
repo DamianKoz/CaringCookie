@@ -21,17 +21,11 @@ class CreateBlogForm(forms.Form):
 
     class Meta:
         model = Blog
-        fields = ['title', 'content', 'type']
+        fields = ['title', 'content', 'type', 'producttype']
 
 class CreateBlogFormExtended(CreateBlogForm):
-    images = forms.FileField(required=False,widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    images = forms.FileField(label="Bilder" ,required=False,widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
     class Meta(CreateBlogForm.Meta):
-        fields = CreateBlogForm.Meta.fields + ['images',]
-    
-class ChangeBlogForm(forms.Form):
-    title = forms.CharField(label='Titel', max_length=100)
-    content = forms.CharField(label='Beschreibung', widget=forms.Textarea)
-    type= forms.ChoiceField(label="Typ",choices=TYPES)
-    producttype = forms.ChoiceField(label="ProduktTyp", choices=PRODUCTTYPES)
+        fields = CreateBlogForm.Meta.fields + ['images']
 

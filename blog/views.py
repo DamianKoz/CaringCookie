@@ -1,10 +1,11 @@
+from tkinter import Image
 from django.shortcuts import get_object_or_404, render, get_list_or_404, redirect
 from django.shortcuts import redirect
 from . models import Blog, Images
 from django.contrib.auth.models import User
 from django.http import Http404
 
-from .forms import CreateBlogForm, ChangeBlogForm, CreateBlogFormExtended
+from .forms import CreateBlogForm, CreateBlogFormExtended
 
 # Create your views here.
 
@@ -21,7 +22,7 @@ def detail_view(request, pk):
 def create_blog(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = CreateBlogFormExtended(request.POST or None, request.FILES or None)
+        form = CreateBlogFormExtended(request.POST, request.FILES or None)
         files = request.FILES.getlist('images')
         # check whether it's valid:
         if form.is_valid() and request.user.is_authenticated:
@@ -49,16 +50,21 @@ def change_blog(request,pk):
     }
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = ChangeBlogForm(request.POST)
+        form = CreateBlogFormExtended(request.POST, request.FILES or None)
+        files = request.FILES.getlist('images')
         # check whether it's valid:
         
         if form.is_valid() and request.user.is_authenticated and request.user == entrytochange.author:
             entrytochange.title = form.cleaned_data['title']
             entrytochange.content = form.cleaned_data['content']
             entrytochange.save()
+            if files:
+                deleteOldPictures(entrytochange.pk)
+                for f in files:
+                    Images.objects.create(blog=entrytochange,image=f)
             return redirect("blogs_detail", pk)
     else:
-        form = ChangeBlogForm(initial=initial_data)
+        form = CreateBlogFormExtended(initial=initial_data)
     return render(request, "blog/change_blog.html", {'form': form, 'entrytochange': entrytochange})
 
 
@@ -84,3 +90,6 @@ def my_blogs(request):
         my_blogs = Blog.objects.filter(author=request.user)
         return render(request, "blog/list.html", {"blogs": my_blogs})
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
+
+def deleteOldPictures(pk):
+    Images.objects.filter(blog=pk).delete()

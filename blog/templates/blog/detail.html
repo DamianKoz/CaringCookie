@@ -5,7 +5,9 @@
   <p class="line-height text-justify">{{blog.content}}</p>
   {% for image in images %} <span></span>
   <span></span>
-  <img src="{{ image.image.url }}" alt="" />
+  {% for image in images %}
+  <img src="{{ image.image.url }}" class="img-fluid mb-3" alt="" />
+  {% endfor %}
   <p></p>
   {% endfor %} <span></span>
   {% if request.user == blog.author %}
