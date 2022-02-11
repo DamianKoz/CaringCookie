@@ -97,3 +97,12 @@ select:focus,
   outline: none;
   box-shadow: none;
 }
+
+.chat-item {
+  transition-duration: 0.2s;
+}
+
+.chat-item:hover {
+  transform: scale(1.05);
+  background-color: #eee;
+}
