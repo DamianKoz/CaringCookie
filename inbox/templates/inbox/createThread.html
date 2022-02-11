@@ -1,20 +1,21 @@
-{% extends 'blog/base.html' %}
-{% load crispy_forms_tags %}
-{% block content %}
-      <a href="{% url 'inbox' %}">Back to Your Inbox</a>
-      <h5>Start a Conversation!</h5>
+{% extends 'blog/base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="container">
+  <a class="pt-3" href="{% url 'inbox' %}">Zurück zur Inbox</a>
+  <h1>Wen möchtest du anschreiben?</h1>
 
-      {% if messages %}
-      {% for message in messages %}
-      
-      {{ message }}
-       
-      {% endfor %}
-      {% endif %}
-      <form method="POST">
-        {% csrf_token %}
-        <p>Enter the username for the person you would like to talk to.</p>
-        {{ form | crispy }}
-        <button type="submit">Continue</button>
-      </form>
+  {% if messages %} <span></span>
+  {% for message in messages %}
+  <div></div>
+  {{ message }}
+  <div></div>
+  {% endfor %}
+  <div></div>
+  {% endif %}
+  <form method="POST">
+    {% csrf_token %}
+    <p>Gib einen Nutzernamen an, um mit dem Chatten anzufangen.</p>
+    {{ form | crispy }}
+    <button class="btn" type="submit">Weiter</button>
+  </form>
+</div>
 {% endblock content %}
