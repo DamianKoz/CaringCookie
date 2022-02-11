@@ -97,12 +97,10 @@ def my_blogs(request):
         return render(request, "blog/list.html", {"blogs": my_blogs, "categorys": Category.objects.all()})
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
 
-<<<<<<< HEAD
 def deleteOldPictures(pk):
     Images.objects.filter(blog=pk).delete()
-=======
+    
 def category(request, name):
     requestedcategory= get_object_or_404(Category, name=name)
     blogsofcategory = Blog.objects.filter(category=requestedcategory)
     return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  
->>>>>>> master
