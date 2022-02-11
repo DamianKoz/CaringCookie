@@ -1,7 +1,6 @@
-from tkinter import Image
 from django.shortcuts import get_object_or_404, render, get_list_or_404, redirect
 from django.shortcuts import redirect
-from . models import Blog, Images
+from . models import Blog, Images, Category
 from django.contrib.auth.models import User
 from django.http import Http404
 
@@ -12,7 +11,7 @@ from .forms import CreateBlogForm, CreateBlogFormExtended
 
 def list_blogs(request):
     blogs = Blog.objects.all()
-    return render(request, "blog/list.html", {"blogs": blogs})
+    return render(request, "blog/list.html", {"blogs": blogs, "categorys": Category.objects.all()})
 
 def detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
@@ -30,7 +29,8 @@ def create_blog(request):
             content = form.cleaned_data['content']
             type = form.cleaned_data['type']
             producttype = form.cleaned_data['producttype']
-            newentry = Blog(title=title, content=content, author = request.user, type = type, producttype = producttype)
+            category = form.cleaned_data['category']
+            newentry = Blog(title=title, content=content, author = request.user, type = type, producttype = producttype, category = category)
             newentry.save()
             for f in files:
                 Images.objects.create(blog=newentry,image=f)
@@ -47,6 +47,9 @@ def change_blog(request,pk):
     initial_data={
             'title':entrytochange.title,
             'content':entrytochange.content,
+            'type':entrytochange.type,
+            'producttype':entrytochange.producttype,
+            'category':entrytochange.category
     }
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -57,6 +60,9 @@ def change_blog(request,pk):
         if form.is_valid() and request.user.is_authenticated and request.user == entrytochange.author:
             entrytochange.title = form.cleaned_data['title']
             entrytochange.content = form.cleaned_data['content']
+            entrytochange.type = form.cleaned_data['type']
+            entrytochange.producttype = form.cleaned_data['producttype']
+            entrytochange.category = form.cleaned_data['category']
             entrytochange.save()
             if files:
                 deleteOldPictures(entrytochange.pk)
@@ -88,8 +94,15 @@ def successfully_deleted_blog(request):
 def my_blogs(request):
     if request.user.is_authenticated:
         my_blogs = Blog.objects.filter(author=request.user)
-        return render(request, "blog/list.html", {"blogs": my_blogs})
+        return render(request, "blog/list.html", {"blogs": my_blogs, "categorys": Category.objects.all()})
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
 
+<<<<<<< HEAD
 def deleteOldPictures(pk):
     Images.objects.filter(blog=pk).delete()
+=======
+def category(request, name):
+    requestedcategory= get_object_or_404(Category, name=name)
+    blogsofcategory = Blog.objects.filter(category=requestedcategory)
+    return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  
+>>>>>>> master

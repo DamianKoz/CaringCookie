@@ -9,7 +9,18 @@
   </div>
 </div>
 <div class="container px-5">
-  <a class="btn" id= "createblogbutton" href="{% url 'create_blog' %}">Neuen Beitrag erstellen</a>
+  {% if categorys %}
+      <a class="btn categorybutton" href="{% url 'blog_list' %}">Alle Beiträge</a>
+  {% for category in categorys %}
+      {% if requestedcategory == category %}
+      <a class="btn" id="chosencategorybutton" href="{% url 'category' category.name %}">{{category.name}}</a>
+      {% else %}
+      <a class="categorybutton btn" href="{% url 'category' category.name %}">{{category.name}}</a>
+      {% endif %}
+  {% endfor %}
+  <hr>
+  {% endif %}
+    <a class="btn" id= "createblogbutton" href="{% url 'create_blog' %}">Neuen Beitrag erstellen</a>
   {% for blog in blogs %}
   <div class="card shadow rounded" style="margin-top: 2rem">
     <div class="card-header">{{ blog.type }}</div>

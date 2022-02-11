@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %} {% block content %}
 <div class="container p-5">
   <h1 class="blog-card-title mb-3 font-weight-bold">{{blog.title}}</h1>
+  <a href="{% url 'category' blog.category.name %}" class="btn">{{blog.category}}</a>
   <p class="text-muted">by {{ blog.author }}</p>
   <p class="line-height text-justify">{{blog.content}}</p>
   {% for image in images %} <span></span>
@@ -13,6 +14,8 @@
   {% if request.user == blog.author %}
   <a href="{% url 'change_blog' blog.pk %}" class="btn">Beitrag bearbeiten</a>
   <a href="{% url 'delete_blog' blog.pk %}" class="btn">Beitrag löschen</a>
+  {% else %}
+  <a href="{% url 'create-thread' %}" class="btn">Anfragen</a>
   {% endif %}
 </div>
 {% endblock content %}

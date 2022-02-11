@@ -9,6 +9,11 @@ from django.core.validators import MinLengthValidator
 
 # Create your models here.
 
+class Category(models.Model):
+    name= models.CharField(max_length= 200)
+
+    def __str__(self):
+        return self.name
 
 class Blog(models.Model):
     TYPES = (
@@ -25,7 +30,8 @@ class Blog(models.Model):
     author = models.ForeignKey(User, on_delete=CASCADE)
     type = models.CharField(max_length=6, choices=TYPES, default="Suche")
     producttype = models.CharField(max_length=15, choices= PRODUCTTYPES, default="Produkt")
-
+    category = models.ForeignKey (Category,blank=True, null=True, on_delete=models.SET_NULL)
+    
     def __str__(self):
         return self.title
 
