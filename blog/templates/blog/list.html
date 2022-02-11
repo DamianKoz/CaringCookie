@@ -10,12 +10,12 @@
 </div>
 <div class="container px-5">
   {% if categorys %}
-      <a class="btn" id="categorybutton" href="{% url 'blog_list' %}">Alle Beiträge</a>
+      <a class="btn categorybutton" href="{% url 'blog_list' %}">Alle Beiträge</a>
   {% for category in categorys %}
       {% if requestedcategory == category %}
       <a class="btn" id="chosencategorybutton" href="{% url 'category' category.name %}">{{category.name}}</a>
       {% else %}
-      <a class="btn" id="categorybutton" href="{% url 'category' category.name %}">{{category.name}}</a>
+      <a class="categorybutton btn" href="{% url 'category' category.name %}">{{category.name}}</a>
       {% endif %}
   {% endfor %}
   <hr>

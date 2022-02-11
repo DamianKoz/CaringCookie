@@ -90,7 +90,6 @@ def my_blogs(request):
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
 
 def category(request, name):
-    if request.user.is_authenticated:
-        requestedcategory= get_object_or_404(Category, name=name)
-        blogsofcategory = Blog.objects.filter(category=requestedcategory)
-        return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  
+    requestedcategory= get_object_or_404(Category, name=name)
+    blogsofcategory = Blog.objects.filter(category=requestedcategory)
+    return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  
