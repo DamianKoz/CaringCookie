@@ -2,15 +2,25 @@
 <span></span>
 {% block content %}
 <div class="container">
-  <h3>Your Conversations</h3>
+  <h1>Deine Chats</h1>
+  <hr />
   <form method="GET" action="{% url 'create-thread' %}">
-    <button type="submit">Start a Conversation</button>
+    <button class="btn" type="submit">Neuer Chat</button>
   </form>
-  {% for thread in threads.all %} {% if request.user == thread.user %}
-  <a class="btn" href="{% url 'thread' thread.pk %}"> {{ thread.receiver }} </a>
-  {% else %}
-  <a class="btn" href="{% url 'thread' thread.pk %}"> {{thread.user}} </a>
-  {% endif %} <span></span> 
-  {% endfor %} <span></span>
+  <ul class="list-group mt-3">
+    {% for thread in threads.all %} {% if request.user == thread.user %}
+    <li class="list-group-item">
+      <a class="" href="{% url 'thread' thread.pk %}">
+        {{ thread.receiver }}
+      </a>
+    </li>
+
+    {% else %}
+    <a class="btn" href="{% url 'thread' thread.pk %}"> {{thread.user}} </a>
+    {% endif %}
+    <span></span>
+    {% endfor %}
+    <span></span>
+  </ul>
   {% endblock content %}
 </div>
