@@ -1,26 +1,37 @@
 {% extends "blog/base.html" %} {% block content %}
-<div class="bg-dark">
+<!-- <div class="bg-dark">
   <div class="container">
     <div class="row align-items-center justify-content-center">
       <div class="col-sm-12 col-lg-6 text-center">
-        <h1 class="text-white">CaringCookie</h1>
+        <p class="logo">
+          Caring<span style="color: var(--main-color)"
+            >Co<img id="cookie-icon" src="media/CaringCookie.png" />kie</span
+          >
+        </p>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="container px-5">
   {% if categorys %}
-      <a class="btn categorybutton" href="{% url 'blog_list' %}">Alle Beiträge</a>
-  {% for category in categorys %}
-      {% if requestedcategory == category %}
-      <a class="btn" id="chosencategorybutton" href="{% url 'category' category.name %}">{{category.name}}</a>
-      {% else %}
-      <a class="categorybutton btn" href="{% url 'category' category.name %}">{{category.name}}</a>
-      {% endif %}
-  {% endfor %}
-  <hr>
+  <a class="btn categorybutton" href="{% url 'blog_list' %}">Alle Beiträge</a>
+  {% for category in categorys %} {% if requestedcategory == category %}
+  <a
+    class="btn"
+    id="chosencategorybutton"
+    href="{% url 'category' category.name %}"
+    >{{category.name}}</a
+  >
+  {% else %}
+  <a class="categorybutton btn" href="{% url 'category' category.name %}"
+    >{{category.name}}</a
+  >
+  {% endif %} {% endfor %}
+  <hr />
   {% endif %}
-    <a class="btn" id= "createblogbutton" href="{% url 'create_blog' %}">Neuen Beitrag erstellen</a>
+  <a class="btn" id="createblogbutton" href="{% url 'create_blog' %}"
+    >Neuen Beitrag erstellen</a
+  >
   {% for blog in blogs %}
   <div class="card shadow rounded" style="margin-top: 2rem">
     <div class="card-header">{{ blog.type }}</div>
