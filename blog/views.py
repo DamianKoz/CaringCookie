@@ -1,11 +1,10 @@
-from unicodedata import category
 from django.shortcuts import get_object_or_404, render, get_list_or_404, redirect
 from django.shortcuts import redirect
-from . models import Blog, Category
+from . models import Blog, Images, Category
 from django.contrib.auth.models import User
 from django.http import Http404
 
-from .forms import CreateBlogForm, ChangeBlogForm
+from .forms import CreateBlogForm, CreateBlogFormExtended
 
 # Create your views here.
 
@@ -16,12 +15,14 @@ def list_blogs(request):
 
 def detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
-    return render(request, "blog/detail.html", {"blog": blog})
+    images = Images.objects.filter(blog=blog)
+    return render(request, "blog/detail.html", {"blog": blog, "images": images})
 
 def create_blog(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = CreateBlogForm(request.POST)
+        form = CreateBlogFormExtended(request.POST, request.FILES or None)
+        files = request.FILES.getlist('images')
         # check whether it's valid:
         if form.is_valid() and request.user.is_authenticated:
             title = form.cleaned_data['title']
@@ -31,9 +32,11 @@ def create_blog(request):
             category = form.cleaned_data['category']
             newentry = Blog(title=title, content=content, author = request.user, type = type, producttype = producttype, category = category)
             newentry.save()
+            for f in files:
+                Images.objects.create(blog=newentry,image=f)
             return redirect("blogs_detail", newentry.pk)
     else:
-        form = CreateBlogForm()
+        form = CreateBlogFormExtended()
 
     return render(request, "blog/create_blog.html", {'form': form})
 
@@ -50,7 +53,8 @@ def change_blog(request,pk):
     }
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = ChangeBlogForm(request.POST)
+        form = CreateBlogFormExtended(request.POST, request.FILES or None)
+        files = request.FILES.getlist('images')
         # check whether it's valid:
         
         if form.is_valid() and request.user.is_authenticated and request.user == entrytochange.author:
@@ -60,9 +64,13 @@ def change_blog(request,pk):
             entrytochange.producttype = form.cleaned_data['producttype']
             entrytochange.category = form.cleaned_data['category']
             entrytochange.save()
+            if files:
+                deleteOldPictures(entrytochange.pk)
+                for f in files:
+                    Images.objects.create(blog=entrytochange,image=f)
             return redirect("blogs_detail", pk)
     else:
-        form = ChangeBlogForm(initial=initial_data)
+        form = CreateBlogFormExtended(initial=initial_data)
     return render(request, "blog/change_blog.html", {'form': form, 'entrytochange': entrytochange})
 
 
@@ -89,6 +97,9 @@ def my_blogs(request):
         return render(request, "blog/list.html", {"blogs": my_blogs, "categorys": Category.objects.all()})
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
 
+def deleteOldPictures(pk):
+    Images.objects.filter(blog=pk).delete()
+    
 def category(request, name):
     requestedcategory= get_object_or_404(Category, name=name)
     blogsofcategory = Blog.objects.filter(category=requestedcategory)

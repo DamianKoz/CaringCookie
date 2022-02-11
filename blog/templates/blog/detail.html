@@ -4,6 +4,13 @@
   <a href="{% url 'category' blog.category.name %}" class="btn">{{blog.category}}</a>
   <p class="text-muted">by {{ blog.author }}</p>
   <p class="line-height text-justify">{{blog.content}}</p>
+  {% for image in images %} <span></span>
+  <span></span>
+  {% for image in images %}
+  <img src="{{ image.image.url }}" class="img-fluid mb-3" alt="" />
+  {% endfor %}
+  <p></p>
+  {% endfor %} <span></span>
   {% if request.user == blog.author %}
   <a href="{% url 'change_blog' blog.pk %}" class="btn">Beitrag bearbeiten</a>
   <a href="{% url 'delete_blog' blog.pk %}" class="btn">Beitrag löschen</a>

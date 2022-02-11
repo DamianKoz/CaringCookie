@@ -37,3 +37,8 @@ class Blog(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog_detail", kwargs={'pk': self.pk})
+
+class Images(models.Model):
+    blog = models.ForeignKey(Blog, default=None, on_delete=CASCADE)
+    image = models.ImageField(upload_to='blogpictures',
+                              null=True,blank=True)
