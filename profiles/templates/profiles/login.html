@@ -1,15 +1,22 @@
 {% extends "blog/base.html" %} <span></span>
-{% block content %} {% load crispy_forms_tags %}
-
+{% block content %}
+<!--  -->
+{% load crispy_forms_tags %}
 <!--Login-->
 <div class="container py-5">
   <h1>Login</h1>
   <form method="POST">
-    {% csrf_token %} {{ form|crispy }}
-    <button class="btn" type="submit">Login</button>
+    {% csrf_token %}
+    <!-- {{ form|crispy }} -->
+    <label for="username">Benutzername</label>
+    {{ form.username }}
+    <label for="password">Passwort</label>
+    {{ form.password }}
+    <button class="btn" type="submit">Einloggen</button>
   </form>
   <p class="text-center">
-    Don't have an account? <a href="{% url 'register' %}">Create an account</a>.
+    Noch keinen Account?
+    <a href="{% url 'register' %}" class="link">Erstell hier einen</a>.
   </p>
 </div>
 

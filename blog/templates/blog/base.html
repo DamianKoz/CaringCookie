@@ -17,7 +17,7 @@
       type="text/css"
       href="{% static 'blog/main.css' %}"
     />
-    <title>Home</title>
+    <title>CaringCookie</title>
   </head>
   <body class="bg-light">
     <header>
@@ -25,12 +25,15 @@
         <div class="container-fluid justify-content-center">
           <p class="logo">
             Caring<span style="color: var(--main-color)"
-              >Co<img id="cookie-icon" src="media/CaringCookie.png" />kie</span
+              >Co<img
+                id="cookie-icon"
+                src="{% static 'CaringCookie.png' %}"
+              />kie</span
             >
           </p>
           <!-- <a class="navbar-brand" href="{% url 'blog_list' %}">CaringCookie</a> -->
           <button
-            class="navbar-toggler"
+            class="navbar-toggler navbar-dark"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
