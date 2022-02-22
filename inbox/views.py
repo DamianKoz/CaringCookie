@@ -21,6 +21,7 @@ class CreateThread(View):
       'form': form
     }
     return render(request, 'inbox/createThread.html', context)
+    
   def post(self, request, pk, *args, **kwargs):
    
     newthreaduser= get_object_or_404(User, pk=pk)
@@ -52,12 +53,12 @@ class CreateThread(View):
           thread_pk = sender_thread.pk
           return redirect('thread', pk=thread_pk)
       except:
-        return redirect('create-thread')
+        return redirect('create-thread', pk)
     else:
         form=ThreadForm(initial=initial_data)
     return render(request, 'inbox/createThread.html', {'form': form})
 
-  def post(self, request, *args, **kwargs):
+  def post(self, request, pk, *args, **kwargs):
     form = ThreadForm(request.POST)
     username = request.POST.get('username')
     try:
@@ -65,6 +66,11 @@ class CreateThread(View):
       if ThreadModel.objects.filter(user=request.user, receiver=receiver).exists():
         thread = ThreadModel.objects.filter(user=request.user, receiver=receiver)[0]
         return redirect('thread', pk=thread.pk)
+
+      elif ThreadModel.objects.filter(receiver=request.user, user=receiver).exists():
+          thread = ThreadModel.objects.filter(receiver=request.user, user=receiver)[0]
+          return redirect('thread', pk=thread.pk)
+      
       if form.is_valid():
         sender_thread = ThreadModel(
           user=request.user,
@@ -75,7 +81,7 @@ class CreateThread(View):
       return redirect('thread', pk=thread_pk)
     except:
       messages.error(request, 'Nutzer nicht gefunden.')
-      return redirect('create-thread')
+      return redirect('create-thread', pk)
 
 class ListThreads(View):
   def get(self, request, *args, **kwargs):
