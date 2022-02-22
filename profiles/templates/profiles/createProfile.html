@@ -13,6 +13,15 @@
 </div>
 {% endif %}
 <div class="container">
+  {% if messages %} <span></span>
+
+    {% for message in messages %}
+      <div></div>
+      {{ message }}
+      <div></div>
+    {% endfor %}
+    <div></div>
+  {% endif %}
   <h1>Profil-Daten eingeben</h1>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %} {{ user_form|crispy }}
