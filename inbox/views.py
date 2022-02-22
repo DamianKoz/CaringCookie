@@ -29,9 +29,7 @@ class CreateThread(View):
         'username': newthreaduser.username
     }
     form = ThreadForm()
-    #context = {
-    #  'form': form
-    #}
+
     if request.method == 'POST':
       form = ThreadForm(request.POST)
       username = request.POST.get('username')
@@ -126,4 +124,13 @@ class ThreadView(View):
     }
     return render(request, 'inbox/thread.html', context)
 
+def deleteThread(request, pk, *args, **kwargs):
 
+  entrytodelete = get_object_or_404(ThreadModel, pk=pk)
+
+  if request.method == 'POST':
+
+    entrytodelete.delete()
+    return redirect("inbox")
+    
+  return render(request, "inbox/deleteThread.html", {'entrytodelete': entrytodelete})
