@@ -8,20 +8,24 @@
     <button class="btn" type="submit">Neuer Chat</button>
   </form>
   <ul class="list-group mt-3">
-    {% for thread in threads.all %} {% if request.user == thread.user %}
+    {% for thread in threads.all %} 
+    {% if request.user == thread.user %}
     <a
       class="list-group-item mb-2 chat-item"
       href="{% url 'thread' thread.pk %}"
     >
       {{ thread.receiver }}
     </a>
-
+    <a href="{% url 'delete-thread' thread.pk %}" class="btn"> Chat löschen
+    </a>
     {% else %}
     <a
       class="list-group-item mb-2 chat-item"
       href="{% url 'thread' thread.pk %}"
       >{{thread.user}}</a
     >
+    <a href="{% url 'delete-thread' thread.pk %}" class="btn"> Chat löschen
+    </a>
     {% endif %}
     <span></span>
     {% endfor %}
