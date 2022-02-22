@@ -23,12 +23,12 @@ def login_request(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.info(request, f"You are now logged in as {username}.")
-            return redirect("main:homepage")
+            messages.info(request, f"Du bist nun eingeloggt als {username}.")
+            return redirect("blog_list")
         else:
-            messages.error(request,"Invalid username or password.")
+            messages.error(request,"Nutzername oder Passwort ungültig.")
     else:
-        messages.error(request,"Invalid username or password.")
+        messages.error(request,"Nutzername oder Passwort ungültig.")
     form = AuthenticationForm()
 # return render(request=request, template_name="main/login.html", context={"login_form":form})
     return render(request, "profiles/login.html", context={"login_form":form})
@@ -49,7 +49,7 @@ def createProfile(request):
     if user_form.is_valid() and profile_form.is_valid():
         user_form.save()
         profile_form.save()
-        messages.success(request, 'Your profile is created successfully')
+        #messages.success(request, 'Profil wurde erfolgreich angelegt.')
         return redirect('users-profile')
     user_form = UpdateUserForm(initial=initial_data_user)
     #profile_form = UpdateProfileForm()
@@ -78,7 +78,7 @@ def changeProfile(request, pk):
             entrytochangeProfil.save()
             user_form.save()
             #profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
+            #messages.success(request, 'Profil wurde erfolgreich aktualisiert')
             return redirect(to='users-profile')
     user_form = UpdateUserForm(initial=initial_data_user)
     profile_form = UpdateProfileForm(initial=initial_data)
@@ -92,13 +92,13 @@ def register_request(request):
 		if form.is_valid():
 			user = form.save()
 			login(request, user)
-			messages.info(request, "Registration successful." )
+			messages.info(request, "Registrierung erfolgreich." )
 			return redirect(to='create-profile')
-		messages.error(request, "Unsuccessful registration. Invalid information.")
+		messages.error(request, "Registrierung fehlgeschlagen. Ungültige Eingabedaten.")
 	form = NewUserForm()
 	return render(request, "profiles/register.html", context={"register_form":form})
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'profiles/changePassword.html'
-    success_message = "Successfully Changed Your Password"
+    success_message = "Passwort wurde erfolgreich geändert."
     success_url = reverse_lazy('users-profile')
