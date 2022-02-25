@@ -1,10 +1,19 @@
 {% extends "blog/base.html" %}<span></span>
 
-{% block content %} {% load crispy_forms_tags %}
+{% block content %}
+<!--  -->
+{% load crispy_forms_tags %}
 
 <!--Register-->
 <div class="container py-5">
-  <h1>Register</h1>
+  <h1>Registrierung</h1>
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li class="alert alert-danger">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
   <form method="POST">
     {% csrf_token %} {{ register_form|crispy }}
     <button class="btn" type="submit">Registrieren</button>

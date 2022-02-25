@@ -13,6 +13,15 @@
   </div>
 </div> -->
 <div class="container px-5">
+
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  
   {% if categorys %}
   <a class="btn categorybutton" href="{% url 'blog_list' %}">Alle Beiträge</a>
   {% for category in categorys %} {% if requestedcategory == category %}

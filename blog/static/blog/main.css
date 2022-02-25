@@ -120,3 +120,7 @@ select:focus,
 .link {
   font-style: italic;
 }
+
+.messages {
+  list-style-type: none;
+}
