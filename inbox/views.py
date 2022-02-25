@@ -91,9 +91,9 @@ class ListThreads(View):
 
 class CreateMessage(View):
   def post(self, request, pk, *args, **kwargs):
+    form = MessageForm(request.POST, request.FILES)
     thread = ThreadModel.objects.get(pk=pk)
     if thread.receiver == request.user:
-      #receiver = thread.user
       receiver = thread.receiver
       message = MessageModel(
         thread=thread,
@@ -109,7 +109,18 @@ class CreateMessage(View):
         receiver_user=receiver,
         body=request.POST.get('message'),
       )
-    message.save()
+    if form.is_valid() and thread.receiver == request.user:
+      message = form.save(commit=False)
+      message.thread = thread
+      message.sender_user = receiver
+      message.receiver_user = request.user
+      message.save()
+    elif form.is_valid():
+      message = form.save(commit=False)
+      message.thread = thread
+      message.sender_user = request.user
+      message.receiver_user = receiver
+      message.save()
     return redirect('thread', pk=pk)
 
 class ThreadView(View):
