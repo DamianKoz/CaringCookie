@@ -1,7 +1,11 @@
 {% extends 'blog/base.html' %} {% load crispy_forms_tags %} {% block content %}
 <div class="container">
-  <h1>Chat mit {{ thread.receiver }}</h1>
-
+  {% if request.user == thread.user %}
+    <h1>Chat mit {{ thread.receiver }}</h1>
+  {% else %}
+    <h1>Chat mit {{ thread.user }}</h1>
+  {% endif %}
+  
   {% if message_list.all.count == 0 %}
   <p>No Messages</p>
   {% endif %} <span></span>
@@ -9,9 +13,19 @@
     {% for message in message_list %} <span></span>
 
     {% if message.sender_user == request.user %}
-    <p class="ms-auto">{{message.sender_user}}: {{ message.body }}</p>
+      {% if message.image %}
+        <p class="ms-auto"><img src="{{ message.image.url }}" class="message-image" />
+          {{message.sender_user}}: {{ message.body }}
+        </p>
+      {% endif %}
+
     {% elif message.receiver_user == request.user %}
-    <p class="me-auto">{{message.sender_user}}: {{ message.body }}</p>
+      {% if message.image %}
+        <p class="me-auto">{{message.sender_user}}: {{ message.body }}
+          <img src="{{ message.image.url }}" class="message-image" />
+        </p>
+      {% endif %}
+
     {% endif %} <span></span>
     {% endfor %}
   </div>
@@ -20,6 +34,7 @@
     action="{% url 'create-message' thread.pk %}"
     enctype="multipart/form-data"
   >
+
     {% csrf_token %} {{ form | crispy }}
     <button class="btn" type="submit">Versenden</button>
   </form>

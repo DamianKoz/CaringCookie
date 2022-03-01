@@ -4,24 +4,22 @@
 {% load crispy_forms_tags %}
 <!--Login-->
 <div class="container py-5">
-  <h1>Login</h1>
-  {% if messages %} <span></span>
-
-    {% for message in messages %}
-      <div></div>
-      {{ message }}
-      <div></div>
-    {% endfor %}
-    <div></div>
+  <h1>Einloggen</h1>
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
   {% endif %}
 
   <form method="POST">
     {% csrf_token %}
-    <!-- {{ form|crispy }} -->
-    <label for="username">Benutzername</label>
+    {{ form|crispy }}
+    <!-- <label for="username">Benutzername</label>
     {{ form.username }}
     <label for="password">Passwort</label>
-    {{ form.password }}
+    {{ form.password }} -->
     <button class="btn" type="submit">Einloggen</button>
   </form>
   <p class="text-center">
