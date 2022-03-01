@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from . models import Blog, Images, Category
 from django.contrib.auth.models import User
 from django.http import Http404
+from django.db.models import Q
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 
@@ -135,6 +136,20 @@ def category(request, name):
 
     return render(request, "blog/list.html", context)  
 
+def search(request):
+    results = []
+    if request.method == "GET":
+
+        query = request.GET.get('search')
+
+    if query == '':
+
+        query = 'None'
+
+    results = Blog.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+
+    return render(request, 'blog/search.html', {'query': query, 'results': results})
+    
 def faqs(request):
     
     if request.method == 'POST':

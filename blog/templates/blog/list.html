@@ -38,6 +38,24 @@
   {% endif %} {% endfor %}
   <hr />
   {% endif %}
+
+
+  <!-- <a class="btn" href="{% url 'search' %}"
+    > Suchen </a
+  > -->
+
+  <form action="{% url 'search' %}" class="form-inline" method="get">
+    <div class="form-group mb-8">
+
+    </div>
+
+      <input name="search" type="" class="form-control mb-2" id="" placeholder="Nach Beiträgen suchen">
+
+
+    <button type="submit" class="btn">Suchen</button>
+
+  </form>
+
   <a class="btn" id="createblogbutton" href="{% url 'create_blog' %}"
     >Neuen Beitrag erstellen</a
   >
