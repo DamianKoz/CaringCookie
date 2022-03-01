@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.db.models import Q
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
 
 from .forms import CreateBlogForm, CreateBlogFormExtended, SendMailForm
 
@@ -13,7 +14,16 @@ from .forms import CreateBlogForm, CreateBlogFormExtended, SendMailForm
 
 def list_blogs(request):
     blogs = Blog.objects.all()
-    return render(request, "blog/list.html", {"blogs": blogs, "categorys": Category.objects.all()})
+    categorys = Category.objects.all()
+    blog_paginator = Paginator(blogs, 10)
+    page_number = request.GET.get('page')
+    page = blog_paginator.get_page(page_number)
+    
+    context = {
+        'categorys' : categorys,
+        'page' : page
+    }
+    return render(request, "blog/list.html", context)
 
 def detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
@@ -96,7 +106,16 @@ def successfully_deleted_blog(request):
 def my_blogs(request):
     if request.user.is_authenticated:
         my_blogs = Blog.objects.filter(author=request.user)
-        return render(request, "blog/list.html", {"blogs": my_blogs, "categorys": Category.objects.all()})
+        blog_paginator = Paginator(my_blogs, 10)
+        page_number = request.GET.get('page')
+        page = blog_paginator.get_page(page_number)
+        
+        context = {
+            'categorys' : Category.objects.all(),
+            'page' : page
+        }
+
+        return render(request, "blog/list.html", context)
     raise Http404("Du hast entweder keine Beiträge erstellt oder du bist nicht eingeloggt.")
 
 def deleteOldPictures(pk):
@@ -105,7 +124,17 @@ def deleteOldPictures(pk):
 def category(request, name):
     requestedcategory= get_object_or_404(Category, name=name)
     blogsofcategory = Blog.objects.filter(category=requestedcategory)
-    return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  
+    blog_paginator = Paginator(blogsofcategory, 10)
+    page_number = request.GET.get('page')
+    page = blog_paginator.get_page(page_number)
+            
+    context = {
+        'categorys' : Category.objects.all(),
+        'requestedcategory': requestedcategory,
+        'page' : page
+    }
+
+    return render(request, "blog/list.html", context)  
 
 def search(request):
     results = []
