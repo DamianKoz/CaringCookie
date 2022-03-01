@@ -21,6 +21,7 @@ class CreateThread(View):
       'form': form
     }
     return render(request, 'inbox/createThread.html', context)
+    
   def post(self, request, pk, *args, **kwargs):
    
     newthreaduser= get_object_or_404(User, pk=pk)
@@ -28,9 +29,7 @@ class CreateThread(View):
         'username': newthreaduser.username
     }
     form = ThreadForm()
-    #context = {
-    #  'form': form
-    #}
+
     if request.method == 'POST':
       form = ThreadForm(request.POST)
       username = request.POST.get('username')
@@ -52,12 +51,12 @@ class CreateThread(View):
           thread_pk = sender_thread.pk
           return redirect('thread', pk=thread_pk)
       except:
-        return redirect('create-thread')
+        return redirect('create-thread', pk)
     else:
         form=ThreadForm(initial=initial_data)
     return render(request, 'inbox/createThread.html', {'form': form})
 
-  def post(self, request, *args, **kwargs):
+  def post(self, request, pk, *args, **kwargs):
     form = ThreadForm(request.POST)
     username = request.POST.get('username')
     try:
@@ -65,6 +64,11 @@ class CreateThread(View):
       if ThreadModel.objects.filter(user=request.user, receiver=receiver).exists():
         thread = ThreadModel.objects.filter(user=request.user, receiver=receiver)[0]
         return redirect('thread', pk=thread.pk)
+
+      elif ThreadModel.objects.filter(receiver=request.user, user=receiver).exists():
+          thread = ThreadModel.objects.filter(receiver=request.user, user=receiver)[0]
+          return redirect('thread', pk=thread.pk)
+      
       if form.is_valid():
         sender_thread = ThreadModel(
           user=request.user,
@@ -75,7 +79,7 @@ class CreateThread(View):
       return redirect('thread', pk=thread_pk)
     except:
       messages.error(request, 'Nutzer nicht gefunden.')
-      return redirect('create-thread')
+      return redirect('create-thread', pk)
 
 class ListThreads(View):
   def get(self, request, *args, **kwargs):
@@ -87,9 +91,9 @@ class ListThreads(View):
 
 class CreateMessage(View):
   def post(self, request, pk, *args, **kwargs):
+    form = MessageForm(request.POST, request.FILES)
     thread = ThreadModel.objects.get(pk=pk)
     if thread.receiver == request.user:
-      #receiver = thread.user
       receiver = thread.receiver
       message = MessageModel(
         thread=thread,
@@ -105,7 +109,18 @@ class CreateMessage(View):
         receiver_user=receiver,
         body=request.POST.get('message'),
       )
-    message.save()
+    if form.is_valid() and thread.receiver == request.user:
+      message = form.save(commit=False)
+      message.thread = thread
+      message.sender_user = receiver
+      message.receiver_user = request.user
+      message.save()
+    elif form.is_valid():
+      message = form.save(commit=False)
+      message.thread = thread
+      message.sender_user = request.user
+      message.receiver_user = receiver
+      message.save()
     return redirect('thread', pk=pk)
 
 class ThreadView(View):
@@ -120,4 +135,13 @@ class ThreadView(View):
     }
     return render(request, 'inbox/thread.html', context)
 
+def deleteThread(request, pk, *args, **kwargs):
 
+  entrytodelete = get_object_or_404(ThreadModel, pk=pk)
+
+  if request.method == 'POST':
+
+    entrytodelete.delete()
+    return redirect("inbox")
+    
+  return render(request, "inbox/deleteThread.html", {'entrytodelete': entrytodelete})

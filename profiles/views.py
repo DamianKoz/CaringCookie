@@ -49,7 +49,7 @@ def createProfile(request):
     if user_form.is_valid() and profile_form.is_valid():
         user_form.save()
         profile_form.save()
-        messages.success(request, 'Your profile is created successfully')
+        #messages.success(request, 'Profil wurde erfolgreich angelegt.')
         return redirect('users-profile')
     user_form = UpdateUserForm(initial=initial_data_user)
     #profile_form = UpdateProfileForm()
@@ -78,7 +78,7 @@ def changeProfile(request, pk):
             entrytochangeProfil.save()
             user_form.save()
             #profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
+            #messages.success(request, 'Profil wurde erfolgreich aktualisiert')
             return redirect(to='users-profile')
     user_form = UpdateUserForm(initial=initial_data_user)
     profile_form = UpdateProfileForm(initial=initial_data)
@@ -101,5 +101,5 @@ def register_request(request):
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'profiles/changePassword.html'
-    success_message = "Successfully Changed Your Password"
+    success_message = "Passwort wurde erfolgreich geändert."
     success_url = reverse_lazy('users-profile')

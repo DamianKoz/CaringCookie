@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %} <span></span>
+{% block content %} {% load crispy_forms_tags %}
+<div class="container py-5">
+    {% if entrytodelete.user == request.user %}
+        <h1>Möchten Sie den Chat mit {{entrytodelete.receiver.username}} wirklich löschen?</h1>
+ 
+        <p class="warningtext">Einmal gelöscht können Sie den Chat nicht wiederherstellen. 
+        <form method="POST">
+            {% csrf_token %}
+            <button class="btn" type="submit">Chat löschen</button>
+        </form>
+        <a href="{% url 'inbox' %}" class="btn"> Chat nicht löschen </a>
+    {% else %}
+    <h1>Möchten Sie den Chat mit {{entrytodelete.user.username}} wirklich löschen?</h1>
+ 
+        <p class="warningtext">Einmal gelöscht können Sie den Chat nicht wiederherstellen. 
+        <form method="POST">
+            {% csrf_token %}
+            <button class="btn" type="submit">Chat löschen</button>
+        </form>
+        <a href="{% url 'inbox' %}" class="btn"> Chat nicht löschen </a>
+    {% endif %}
+</div>
+{% endblock content %}
