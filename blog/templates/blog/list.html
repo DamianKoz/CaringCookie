@@ -41,7 +41,7 @@
   <a class="btn" id="createblogbutton" href="{% url 'create_blog' %}"
     >Neuen Beitrag erstellen</a
   >
-  {% for blog in blogs %}
+  {% for blog in page.object_list %}
   <div class="card shadow rounded" style="margin-top: 2rem">
     <div class="card-header">{{ blog.type }}</div>
     <div class="card-body">
@@ -55,6 +55,29 @@
     </div>
   </div>
   {% endfor %}
+
+  <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+    
+      {% if page.has_previous %}
+      <div style="float: left;">
+        <a class ="btn" href="?page=1">&laquo; Erste Seite</a>
+        <a class ="btn" href="?page={{ page.previous_page_number }}">zurück</a>
+      </div>
+      {% endif %}
+    
+      <div style="vertical-align:middle">
+      <p>Seite {{ page.number }} von {{ page.paginator.num_pages }}</p> 
+      </div>
+    
+      {% if page.has_next %}
+      <div style="float: right;">
+        <a class ="btn" href="?page={{ page.next_page_number }}">vor</a>
+        <a class ="btn" href="?page={{ page.paginator.num_pages }}">Letzte Seite &raquo;</a>
+      </div>
+      {% endif %}
+    
+  </div> 
+  
 </div>
 
 {% endblock content %}
