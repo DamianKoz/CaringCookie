@@ -3,8 +3,9 @@ from django.shortcuts import redirect
 from . models import Blog, Images, Category
 from django.contrib.auth.models import User
 from django.http import Http404
+from django.core.mail import send_mail
 
-from .forms import CreateBlogForm, CreateBlogFormExtended
+from .forms import CreateBlogForm, CreateBlogFormExtended, SendMailForm
 
 # Create your views here.
 
@@ -104,3 +105,27 @@ def category(request, name):
     requestedcategory= get_object_or_404(Category, name=name)
     blogsofcategory = Blog.objects.filter(category=requestedcategory)
     return render(request, "blog/list.html", {"blogs": blogsofcategory, "categorys": Category.objects.all(), "requestedcategory": requestedcategory})  
+
+def faqs(request):
+    
+    if request.method == 'POST':
+            
+        form = SendMailForm()
+
+        if form.is_valid():
+            
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            from_mail = form.cleaned_data['mail']
+
+            send_mail(
+            subject,
+            message,
+            from_mail,
+            ['cookiecaring@gmail.com'],
+            fail_silently=False,
+            )
+    else:
+        form = SendMailForm()
+
+    return render(request, "blog/faqs.html", {'form': form} )

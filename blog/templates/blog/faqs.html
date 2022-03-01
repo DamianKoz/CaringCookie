@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %} {% block content %}
+{% load crispy_forms_tags %}
+<div class="container py-5">
+  <h1>FAQs</h1>
+  <h4>Wie entstand CaringCookie?</h4>
+  <p>CaringCookie ist das Projekt von vier Wirtschaftsinformatik-Stundenten der FHDW. 
+    Es entstand im Zuge einer praktischen Software Engineering-Vorlesung. 
+    Auf Basis der eigenen Erfahrungen, entstand die Idee, eine Plattform für Studenten zu bieten, auf welcher das günstige Tauschen von Produkten und Dienstleistungen möglich ist.</p>
+  <h4>Für wen ist CaringCookie gedacht?</h4>
+  <p>Unsere Mission ist es, Studenten die Möglichkeit zu bieten, sich gegenseitig zu unterstützen und so Geld zu sparen. 
+    Als Studenten kennen wir selbst die Situation, von wenig Geld zu leben. 
+    CaringCookie soll es Studenten deswegen ermöglichen, von günstigen Angeboten zu profitieren. 
+    Als Gegenleistung erwarten wir von unseren Nutzern, ihre Produkte und Dienstleistung ebenfalls zu einem günstigen Preis anzubieten.</p>
+  <h4>Wie funktioniert die Zahlung bei CaringCookie?</h4>
+  <p>Momentan bieten wir noch keine integrierten Zahlungsmöglichkeiten an. 
+    Über die Chatfunktion könnt ihr euch daher untereinander austauschen, wie ihr euch die Zahlung vorstellt. 
+    Falls ihr nicht weit voneinander wohnt, könnt ihr ja ein Treffen zur Übergabe ausmachen und so direkt neue Leute kennenlernen.</p>
+  <h4>Bin ich bei einem Kauf über euch abgesichert?</h4>
+  <p>Leider können wir es momentan nicht anbieten, einen Schutz über CaringCookie anzubieten. 
+    Mängel an Produkten und sonstige Probleme beim Handel müssen zum jetzigen Zeitpunkt noch privat gehandhabt werden.</p>
+<h4>Haben Sie weitere Fragen an uns?</h4>
+<p>Dann schicken Sie uns Ihre Frage per Mail indem Sie folgendes Formular ausfüllen.</p>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %} {{ form|crispy }}
+    <button class="btn" type="submit">Mail abschicken</button>
+  </form>
+</div>
+{% endblock content %}
