@@ -8,28 +8,28 @@
     <button class="btn" type="submit">Neuer Chat</button>
   </form>
   <ul class="list-group mt-3">
-    {% for thread in threads.all %} 
-    {% if request.user == thread.user %}
-    <a
-      class="list-group-item mb-2 chat-item"
-      href="{% url 'thread' thread.pk %}"
-    >
-      {{ thread.receiver }}
-    </a>
-    <a href="{% url 'delete-thread' thread.pk %}" class="btn"> Chat löschen
-    </a>
+    {% for thread in threads.all %} {% if request.user == thread.user %}
+    <div class="row chat-item mb-3 p-3">
+      <a class="col-11 mt-auto" href="{% url 'thread' thread.pk %}">
+        {{ thread.receiver }}
+      </a>
+      <a href="{% url 'delete-thread' thread.pk %}" class="col">
+        <i class="fa-solid fa-trash-can"></i>
+      </a>
+    </div>
+
     {% else %}
-    <a
-      class="list-group-item mb-2 chat-item"
-      href="{% url 'thread' thread.pk %}"
-      >{{thread.user}}</a
-    >
-    <a href="{% url 'delete-thread' thread.pk %}" class="btn"> Chat löschen
-    </a>
+    <div class="row chat-item">
+      <a class="col" href="{% url 'thread' thread.pk %}">{{thread.user}}</a>
+      <a href="{% url 'delete-thread' thread.pk %}" class="col">
+        Chat löschen
+      </a>
+    </div>
+
     {% endif %}
-    <span></span>
+    <!-- <span></span> -->
     {% endfor %}
-    <span></span>
+    <!-- <span></span> -->
   </ul>
   {% endblock content %}
 </div>

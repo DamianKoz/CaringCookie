@@ -112,6 +112,8 @@ select:focus,
 
 .chat-item {
   transition-duration: 0.2s;
+  border-radius: 2rem;
+  border: 1px solid #000;
 }
 
 .chat-item:hover {
