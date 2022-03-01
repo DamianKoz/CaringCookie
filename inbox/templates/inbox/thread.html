@@ -17,6 +17,10 @@
         <p class="ms-auto"><img src="{{ message.image.url }}" class="message-image" />
           {{message.sender_user}}: {{ message.body }}
         </p>
+        {% else %}
+          <p class="ms-auto">
+          {{message.sender_user}}: {{ message.body }}
+          </p>
       {% endif %}
 
     {% elif message.receiver_user == request.user %}
@@ -24,6 +28,10 @@
         <p class="me-auto">{{message.sender_user}}: {{ message.body }}
           <img src="{{ message.image.url }}" class="message-image" />
         </p>
+        {% else %}
+          <p class="me-auto">
+          {{message.sender_user}}: {{ message.body }}
+          </p>
       {% endif %}
 
     {% endif %} <span></span>
