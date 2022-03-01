@@ -128,3 +128,30 @@ select:focus,
 .messages {
   list-style-type: none;
 }
+
+.message-image {
+  width: 50%;
+  height: auto;
+  margin-left: auto;
+}
+
+.message-item {
+  color: #fff;
+  padding: 1rem;
+  border-radius: 1rem;
+  max-width: 50%;
+}
+
+/* .message-item-left {
+  background-color: #454d57;
+} */
+
+.message-item-left-name {
+  size: 12px;
+  margin-bottom: 0;
+  color: var(--main-color);
+}
+
+.message-item-right {
+  background-color: #2787f5;
+}
