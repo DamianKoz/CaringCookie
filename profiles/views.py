@@ -17,20 +17,6 @@ from profiles.models import Profile
 def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
-<<<<<<< Updated upstream
-    if form.is_valid():
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.info(request, f"You are now logged in as {username}.")
-            return redirect("main:homepage")
-        else:
-            messages.error(request,"Invalid username or password.")
-    else:
-        messages.error(request,"Invalid username or password.")
-=======
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -43,7 +29,6 @@ def login_request(request):
                 messages.error(request,"Nutzername oder Passwort ungültig.")
         else:
             messages.error(request,"Nutzername oder Passwort ungültig.")
->>>>>>> Stashed changes
     form = AuthenticationForm()
 # return render(request=request, template_name="main/login.html", context={"login_form":form})
     return render(request, "profiles/login.html", context={"login_form":form, })
@@ -102,18 +87,6 @@ def changeProfile(request, pk):
 
 @csrf_exempt
 def register_request(request):
-<<<<<<< Updated upstream
-	if request.method == "POST":
-		form = NewUserForm(request.POST)
-		if form.is_valid():
-			user = form.save()
-			login(request, user)
-			messages.info(request, "Registration successful." )
-			return redirect(to='create-profile')
-		messages.error(request, "Unsuccessful registration. Invalid information.")
-	form = NewUserForm()
-	return render(request, "profiles/register.html", context={"register_form":form})
-=======
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -125,7 +98,6 @@ def register_request(request):
             messages.error(request, "Registrierung fehlgeschlagen. Ungültige Eingabedaten.")
     form = NewUserForm()
     return render(request, "profiles/register.html", context={"register_form":form})
->>>>>>> Stashed changes
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'profiles/changePassword.html'
