@@ -138,3 +138,11 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "blog_list"
+
+# E-Mail Settings
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'cookiecaring@gmail.com'
+EMAIL_HOST_PASSWORD = 'caringcookie123!'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
