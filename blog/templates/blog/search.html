@@ -1,0 +1,58 @@
+{% extends "blog/base.html" %} {% block content %}
+
+<div class="container px-5">
+    <div class="col-md-8 offset-md-2">
+
+        {% if query %}
+            
+            <h2>
+
+                {% with results.count as total_results %}
+
+                    {% if total_results == 1 %}
+
+                    {{ total_results }} Ergebnis gefunden
+                    
+                    {% elif total_results > 1 %}
+
+                    {{ total_results }} Ergebnisse gefunden
+
+                    {% endif %}
+
+                {% endwith %}
+
+            </h2>
+
+
+        
+           {% for blog in results %}
+                   
+            <div class="card shadow rounded mb-3" style="margin-top: 2rem">
+                <div class="card-header">{{ blog.type }}</div>
+                <div class="card-body">
+                <a
+                    class="blog-title-link card-title"
+                    href="{% url 'blogs_detail' blog.pk %}"
+                    >{{ blog.title }}</a
+                >
+                <p class="card-text">{{ blog.content|truncatewords:30 }}</p>
+                <a class="btn" href="{% url 'blogs_detail' blog.pk %}">Details</a>
+                </div>
+            </div>        
+        
+
+           {% empty %}
+        
+           <h3>Keine Ergebnisse gefunden.</h3>
+        
+           {% endfor %}
+        
+          {% endif %}
+
+
+          <a class="btn mb-3" href="{% url 'blog_list' %}">Zurück zur Startseite</a>
+        
+            </div>
+</div>
+
+{% endblock content %}
