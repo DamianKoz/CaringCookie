@@ -142,7 +142,7 @@ LOGIN_REDIRECT_URL = "blog_list"
 
 # E-Mail Settings
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+EMAIL_PORT = '587'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'cookiecaring@gmail.com'
 EMAIL_HOST_PASSWORD = 'caringcookie123!'

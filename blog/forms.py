@@ -33,7 +33,7 @@ class CreateBlogFormExtended(CreateBlogForm):
         fields = CreateBlogForm.Meta.fields + ['images']
 
 class SendMailForm(forms.Form):
-    mail = forms.CharField(label='Ihre Mail-Adresse', max_length=150)
+    sending_mail = forms.CharField(label='Ihre Mail-Adresse', max_length=150)
     subject = forms.CharField(label='Betreff', max_length=100 )
     message = forms.CharField(label='Ihre Nachricht', widget=forms.Textarea)
     
