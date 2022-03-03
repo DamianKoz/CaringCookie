@@ -151,25 +151,21 @@ def search(request):
     return render(request, 'blog/search.html', {'query': query, 'results': results})
     
 def faqs(request):
-    
-    if request.method == 'POST':
-            
-        form = SendMailForm()
+    form = SendMailForm(request.POST)
+    if request.method == 'POST' and form.is_valid():
+        
+        subject = form.cleaned_data['subject']
+        message = form.cleaned_data['message']
+        from_mail = form.cleaned_data['sending_mail']
 
-        if form.is_valid():
-            
-            subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            from_mail = form.cleaned_data['mail']
-
-            send_mail(
-            subject,
-            message,
-            from_mail,
-            ['cookiecaring@gmail.com'],
-            fail_silently=False,
-            )
+        send_mail(
+        'Anfrage: ' + subject,
+        message,
+        from_mail,
+        ['cookiecaring@gmail.com', from_mail],
+        fail_silently=False,
+        )
+        return render(request, "blog/faqs.html", {'from_mail': from_mail, 'form': form} )
     else:
         form = SendMailForm()
-
-    return render(request, "blog/faqs.html", {'form': form} )
+        return render(request, "blog/faqs.html", {'form': form} )
