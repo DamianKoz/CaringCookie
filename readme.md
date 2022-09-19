@@ -1,5 +1,30 @@
 This is the CaringCookie Project.
 
+A Fullstack-Webapp written in Django (Python).
+It contains all of the relevant functionality for a webapp. User Registration (Login, Logout, Deleting Users from Admin View), a SQLite Storage which can also store images, creating new articles with different categories, a Chat Service and much more :)
+
+...
+
+# Here are some Screenshots:
+
+### Homepage
+
+![Homepage](../CaringCookie/screenshots/homepage.png)
+
+### Creating new 'Blogs'
+
+![Creating new 'Blogs'](../CaringCookie/screenshots/creating_new_blogs.png)
+
+### Chat
+
+![Chat](../CaringCookie/screenshots/chat.png)
+![Chat](../CaringCookie/screenshots/chat_from_other_side.png)
+
+### Logout Screen
+
+![Login](../CaringCookie/screenshots/login.png)
+![Logout](../CaringCookie/screenshots/logout_screen.png)
+
 To get started:
 
 1. Download Python
