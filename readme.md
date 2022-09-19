@@ -8,8 +8,8 @@ It contains all of the relevant functionality for a webapp. User Registration (L
 # Here are some Screenshots:
 
 ### Homepage
-
-![Homepage](../CaringCookie/screenshots/homepage.png)
+https://github.com/DamianKoz/CaringCookie/blob/master/screenshots/chat.png
+![Homepage](/screenshots/homepage.png)
 
 ### Creating new 'Blogs'
 
